@@ -34,4 +34,18 @@ docker_run: docker_build
 
 	docker run --name hello-world-printer-dev -p 5000:5000 -d hello-world-printer
 
-.PHONY: test docker_build docker_run
+
+
+docker_push: docker_build
+
+	@docker login --username $(USERNAME) --password $$(DOCKER_PASSWORD); \
+
+	docker tag hello-world-printer $(USERNAME)/hello-world-printer; \
+
+	docker push $(USERNAME)/hello-world-printer; \
+
+	docker logout
+
+
+
+.PHONY: test docker_build docker_run docker_push
